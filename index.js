@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 if (process.env.NODE_ENV !== "production") {
   app.use(cors());
 } else {
-  app.use(cors({ origin: "purphub.com" }));
+  app.use(cors({ origin: "https://purphub.com" }));
 }
 
 mongoose.connect(
