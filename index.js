@@ -6,16 +6,14 @@ const Tweet = require("./models/Tweet");
 
 const app = express();
 app.use(bodyParser.json());
-app.use(cors());
+if (process.env.NODE_ENV !== "production") {
+  app.use(cors());
+} else {
+  app.use(cors({ origin: "purphub.com" }));
+}
 
-mongoose.connect("mongodb://localhost:27017/purphub");
-
-const Poll = mongoose.model(
-  "Poll",
-  mongoose.Schema({
-    name: String,
-    count: Number
-  })
+mongoose.connect(
+  process.env.MONGODB_URI || "mongodb://localhost:27017/purphub"
 );
 
 const getRandomTweet = () =>
@@ -23,25 +21,6 @@ const getRandomTweet = () =>
 
 app.get("/tweets/random", (req, res) => {
   getRandomTweet().then(tweet => res.status(200).send(JSON.stringify(tweet)));
-});
-
-app.get("/poll", (req, res) => {
-  Poll.find({}, (err, poll) => {
-    if (err) throw err;
-
-    res.send({
-      pussy: 69,
-      boobs: 420
-    });
-  });
-});
-
-app.post("/poll", (req, res) => {
-  const { name } = req.body;
-
-  Poll.find({ name: name }, (err, rows) => {
-    if (err) throw err;
-  });
 });
 
 app.listen(3001, () => console.log("Running..."));
