@@ -23,4 +23,4 @@ app.get("/tweets/random", (req, res) => {
   getRandomTweet().then(tweet => res.status(200).send(JSON.stringify(tweet)));
 });
 
-app.listen(3001, () => console.log("Running..."));
+app.listen(process.env.PORT || 3001, () => console.log("Running..."));
