@@ -7,7 +7,7 @@ mongoose.connect(
 );
 
 async function load(data) {
-  const rows = data.split("\r\n");
+  const rows = data.split("\n");
   const tweets = rows.map(row => {
     const parts = row.split(",");
     return {
